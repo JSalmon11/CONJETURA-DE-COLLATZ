@@ -23,7 +23,7 @@ public class Principal {
         if (Metodo==2) {
             creadorHilosRangos(NumHilos);
         }else if (Metodo==1) {
-            creadorHilosDe1En1(NumHilos);
+            //creadorHilosDe1En1(NumHilos);
             //Aqui hace todos los sout que pide el enunciado
         }
     }// main()
@@ -48,11 +48,11 @@ public class Principal {
         datos.endRangos();
     }// creadorHilosRangos()
     
-    private static void creadorHilosDe1En1(int numHilos){
-        Datos_De_Uno_En_Uno datos = new Datos_De_Uno_En_Uno(Inicio,Fin);
+    /*private static void creadorHilosDe1En1(int numHilos){
+        Datos datos = new Datos(Inicio,Fin);
         Thread[] hilos = new Thread[numHilos];
         for (int i = 0; i < hilos.length; ++i) {
-            Hilo_De_Uno_En_Uno h = new Hilo_De_Uno_En_Uno(datos);
+            Datos h = new Datos(datos);
             hilos[i] = new Thread(h);
             hilos[i].start();
         }
@@ -70,5 +70,5 @@ public class Principal {
         System.out.println("La secuencia mas larga es: "+                   datos.getCadenaMasLargar());
         
         
-    }// creadorHiloDe1En1
+    }// creadorHiloDe1En1*/
 }// Principal
