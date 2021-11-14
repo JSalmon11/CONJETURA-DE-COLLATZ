@@ -63,7 +63,8 @@ public class Principal {
             } catch (InterruptedException e) {}
         }
         Long FinTiempo = System.currentTimeMillis();
-        System.out.println("Ha tardado "+ (FinTiempo-InicioTiempo) + "milisegundos");
+        System.out.println("Ha tardado "+ (FinTiempo-InicioTiempo) + " milisegundos");
         datos.end(2);
     }// creadorHiloDe1En1
+    
 }// Principal

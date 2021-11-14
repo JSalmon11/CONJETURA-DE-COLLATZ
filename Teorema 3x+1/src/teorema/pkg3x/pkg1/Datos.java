@@ -40,15 +40,15 @@ public class Datos {
         }else{//en el caso que ya se acabven los nuemro devuelte al hilo 0 y se muere el hilo
             return BigInteger.ZERO;
         }
-    }
+    }// PedirNumero()
         
     private BigInteger numMax=BigInteger.ZERO;
     public BigInteger getNumMax() {
         return numMax;
-    }
+    }// getNumMax()
     public synchronized void setNumMax(BigInteger numMax) {
         this.numMax = numMax;
-    }
+    }// setNumMax()
     
     private int contadorHilos = 0;
     public synchronized BigInteger pedirInicio(){
@@ -64,7 +64,7 @@ public class Datos {
         //Contador de hilos para que cuando ya no se el primer hilo vaya al else
         ++contadorHilos;
         return inicioRango;
-    }
+    }// pedirInicio()
     
     public BigInteger pedirFin(BigInteger inicio) {
         //El hilo pide el fin de su rango, no es synchronized porque, a pesar de
@@ -115,7 +115,7 @@ public class Datos {
         repetido.clear();
         //se devuelve el resto de la longitud de la secuencia
         return contExtra;
-    }
+    }// getSecuencia()
     
     private int longitudSecuenciaMayor=0;
     private BigInteger semillaSecuenciaMayor=BigInteger.ZERO;
@@ -137,7 +137,7 @@ public class Datos {
             siguienteNum=calculados.get(siguienteNum);
             repetido.put(numActual, siguienteNum);
         }
-    }
+    }// EscribirSecuenciaMasLarga()
     private void ActualizarSecuenciaMasLarga() {
         //Realizar una sola iteracion igual que el hilo pero para actualizar la variable "secuenciaMayor" 
         //y asi que ontenga todos los nuemros generados por la semillla
@@ -154,14 +154,15 @@ public class Datos {
             ValoesSecuancia = NuevoValor;
         }
         repetido.clear();
-    }
+    }// ActualizarSecuenciaMasLarga()
     
     private boolean existeNuevoBucle = false;
     private BigInteger semillaNuevoBucle=BigInteger.ZERO;
     public synchronized void setBucle(boolean nuevoBucle, BigInteger semillaNuevoBucle){
         existeNuevoBucle=nuevoBucle;
         this.semillaNuevoBucle=semillaNuevoBucle;
-    }
+    }// setBucle()
+    
     public void end(int metodo){
         //Dependiendo del metodo que sea actualiza la variable de secuenciaMayor de una forma u otra
         if(metodo==1){
@@ -184,8 +185,6 @@ public class Datos {
         if (!semillaNuevoBucle.equals(BigInteger.ZERO)){
             System.out.println("Generado por la semilla: "+semillaNuevoBucle);
         }
-     
-    }
+    }// end()
 
-    
 }// Datos

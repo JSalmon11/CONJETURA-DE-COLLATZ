@@ -19,7 +19,7 @@ public class HiloRangos implements Runnable {
     
     public HiloRangos(Datos datos) {
         this.datos = datos;
-    }
+    }// HiloRangos()
 
     @Override
     public void run() {
