@@ -23,7 +23,25 @@ public class Datos {
         //Reparte los numeros que corresponden por hilo
         reparto = (finRango.subtract(inicioRango)).divide(BigInteger.valueOf(numHilos));
     }// DatosRangos()
-
+    
+    public Datos (BigInteger inicioRango, BigInteger finRango) {
+        this.inicioRango = inicioRango;
+        this.finRango = finRango;
+    }// DatosDe1En1()
+    
+    BigInteger Contador = BigInteger.ZERO;
+    BigInteger ACalcular;
+    public synchronized BigInteger PedirNumero(){
+        //cada vez que se llame a este metodo desde cualquier hilo le dara un numero entre la semilla inicial y la final
+        ACalcular = inicioRango.add(Contador);
+        Contador = Contador.add(BigInteger.ONE);
+        if(ACalcular.compareTo(finRango) < 0){
+            return ACalcular;
+        }else{//en el caso que ya se acabven los nuemro devuelte al hilo 0 y se muere el hilo
+            return BigInteger.ZERO;
+        }
+    }
+        
     private BigInteger numMax=BigInteger.ZERO;
     public BigInteger getNumMax() {
         return numMax;
@@ -109,14 +127,7 @@ public class Datos {
         }
     }// secuenciaMasLarga()
     
-    private boolean existeNuevoBucle = false;
-    private BigInteger semillaNuevoBucle=BigInteger.ZERO;
-    public synchronized void setBucle(boolean nuevoBucle, BigInteger semillaNuevoBucle){
-        existeNuevoBucle=nuevoBucle;
-        this.semillaNuevoBucle=semillaNuevoBucle;
-    }
-    
-    public void endRangos(){
+    public void EscribirSecuenciaMasLarga(){
         //Recorre el hashmap con comenzando por la semilla que da lugar a la mas larga
         BigInteger siguienteNum=semillaSecuenciaMayor;
         BigInteger numActual;
@@ -126,7 +137,38 @@ public class Datos {
             siguienteNum=calculados.get(siguienteNum);
             repetido.put(numActual, siguienteNum);
         }
-        
+    }
+    private void ActualizarSecuenciaMasLarga() {
+        //Realizar una sola iteracion igual que el hilo pero para actualizar la variable "secuenciaMayor" 
+        //y asi que ontenga todos los nuemros generados por la semillla
+        BigInteger ValoesSecuancia = semillaSecuenciaMayor;
+        BigInteger NuevoValor;
+        while(repetido.get(ValoesSecuancia)==null){
+            if(ValoesSecuancia.remainder(new BigInteger("2")) == BigInteger.ZERO){
+                NuevoValor = ValoesSecuancia.divide(new BigInteger("2"));
+            }else{
+                NuevoValor = ValoesSecuancia.multiply(new BigInteger("3")).add(BigInteger.ONE);
+            }
+            repetido.put(ValoesSecuancia,NuevoValor);
+            secuenciaMayor += ValoesSecuancia + "-";
+            ValoesSecuancia = NuevoValor;
+        }
+        repetido.clear();
+    }
+    
+    private boolean existeNuevoBucle = false;
+    private BigInteger semillaNuevoBucle=BigInteger.ZERO;
+    public synchronized void setBucle(boolean nuevoBucle, BigInteger semillaNuevoBucle){
+        existeNuevoBucle=nuevoBucle;
+        this.semillaNuevoBucle=semillaNuevoBucle;
+    }
+    public void end(int metodo){
+        //Dependiendo del metodo que sea actualiza la variable de secuenciaMayor de una forma u otra
+        if(metodo==1){
+            EscribirSecuenciaMasLarga();
+        }else{
+            ActualizarSecuenciaMasLarga();
+        }
         System.out.println("Semilla de la mayor secuencia encontrada: "+semillaSecuenciaMayor);
         //El -1 es porque sino sacaria la longitud de la secuencia contando con el
         //numero que se repite(4 o x) que genera el bucle 4-2-1 u otro
@@ -142,6 +184,8 @@ public class Datos {
         if (!semillaNuevoBucle.equals(BigInteger.ZERO)){
             System.out.println("Generado por la semilla: "+semillaNuevoBucle);
         }
-    }// endRangos()
+     
+    }
+
     
 }// Datos

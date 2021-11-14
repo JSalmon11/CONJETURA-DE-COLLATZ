@@ -23,7 +23,7 @@ public class Principal {
         if (Metodo==2) {
             creadorHilosRangos(NumHilos);
         }else if (Metodo==1) {
-            //creadorHilosDe1En1(NumHilos);
+            creadorHilosDe1En1(NumHilos);
             //Aqui hace todos los sout que pide el enunciado
         }
     }// main()
@@ -45,14 +45,14 @@ public class Principal {
         Long FinTiempo = System.currentTimeMillis();
         long TiempoEnEjecucion = FinTiempo - InicioTiempo;
         System.out.println("Tiempo de procesado: "+ TiempoEnEjecucion+" milisegundos");
-        datos.endRangos();
+        datos.end(1);
     }// creadorHilosRangos()
     
-    /*private static void creadorHilosDe1En1(int numHilos){
+    private static void creadorHilosDe1En1(int numHilos){
         Datos datos = new Datos(Inicio,Fin);
         Thread[] hilos = new Thread[numHilos];
         for (int i = 0; i < hilos.length; ++i) {
-            Datos h = new Datos(datos);
+            Hilo_De_Uno_En_Uno h = new Hilo_De_Uno_En_Uno(datos);
             hilos[i] = new Thread(h);
             hilos[i].start();
         }
@@ -63,12 +63,7 @@ public class Principal {
             } catch (InterruptedException e) {}
         }
         Long FinTiempo = System.currentTimeMillis();
-        long TiempoEnEjecucion = FinTiempo - InicioTiempo; 
-        System.out.println("Tiempo de Proceso: "+                           TiempoEnEjecucion + " milisegundos");
-        System.out.println("El numero mas alto alcanzado es: "+             datos.getNumMasAlto());
-        System.out.println("La Longitud de la secuencia mas larga es: "+   datos.getLongiudCadenaMax());
-        System.out.println("La secuencia mas larga es: "+                   datos.getCadenaMasLargar());
-        
-        
-    }// creadorHiloDe1En1*/
+        System.out.println("Ha tardado "+ (FinTiempo-InicioTiempo) + "milisegundos");
+        datos.end(2);
+    }// creadorHiloDe1En1
 }// Principal
