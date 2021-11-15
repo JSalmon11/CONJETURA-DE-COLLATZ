@@ -19,7 +19,7 @@ Por ejemplo, si elegimos como semilla el número 11, la secuencia obtenida al ap
 anteriores es la siguiente:
     11 – 34 – 17 – 52 – 26 – 13 – 40 – 20 – 10 – 5 – 16 – 8 – 4 – 2 – 1 – 4 – 2 – 1 – 4 – 2 – 1 ...
     
-Se han explorado al menos los primeros 264 números naturales, y en todos los casos se alcanza el 
+Se han explorado al menos los primeros 2^64 números naturales, y en todos los casos se alcanza el 
 ciclo 4 – 2 – 1. Existe la hipótesis no demostrada (y ése es el problema matemático abierto) de que
 todos los números naturales mayores que 2 convergen al ciclo anterior. En ningún caso se ha 
 encontrado un ciclo diferente (esto no ocurre con los números negativos).
@@ -45,7 +45,7 @@ En ambos casos si usas un IDE distinto de NetBeans deberás revisar por si pudie
 
 ## Ejecución ⚙️
 
-Al ejecutar el rpograma se pide el número de hilos que quieres utilizar, el método de reparto entre los hilos y el inicio y el fin del rango de números a calcular.
+Al ejecutar el programa se pide el número de hilos que quieres utilizar, el método de reparto entre los hilos y el inicio y el fin del rango de números a calcular.
 
 Un ejemplo sería:
 ```
@@ -53,7 +53,7 @@ Bienvenido al programa calculadora de casos del Teorema 3x+1
 Que cantiad de hilos quiere utilizar
 4
 Que metodo quieres utilizar:
- 	 DeUnoEnUno-1                                       Los hilos van piddiendo números a la clase de datos y van calculando sus secuencias.
+ 	 DeUnoEnUno-1                                       Los hilos van pidiendo números a la clase de datos y van calculando sus secuencias.
 	 SubIntervalos-2                                    Los hilos piden un rango de números y cada uno trabaja con ese rango.
 2
 Dime el inicio de las semillas a calcular
