@@ -3,7 +3,7 @@ import java.math.BigInteger;
 import java.util.Scanner;
 
 public class Principal {
-    private static BigInteger Inicio; 
+    private static BigInteger Inicio;
     private static BigInteger Fin;
     
     public static void main(String[] args) {
@@ -21,18 +21,17 @@ public class Principal {
         Fin= new BigInteger(teclado.nextLine());
         
         if (Metodo==2) {
-            creadorHilosRangos(NumHilos);
+            creadorHilos(NumHilos, Metodo);
         }else if (Metodo==1) {
-            creadorHilosDe1En1(NumHilos);
-            //Aqui hace todos los sout que pide el enunciado
+            creadorHilos(NumHilos, Metodo);
         }
     }// main()
     
-    private static void creadorHilosRangos(int numHilos) {
+    private static void creadorHilos(int numHilos, int metodo) {
         Datos datos=new Datos(Inicio, Fin, numHilos);
         Thread[] hilos=new Thread[numHilos];       
         for (int i = 0; i < hilos.length; ++i) {
-            HiloRangos h = new HiloRangos(datos);
+            Hilo h = new Hilo(datos, metodo);
             hilos[i] = new Thread(h);
             hilos[i].start();
         }
@@ -44,27 +43,7 @@ public class Principal {
         }
         Long FinTiempo = System.currentTimeMillis();
         long TiempoEnEjecucion = FinTiempo - InicioTiempo;
-        System.out.println("Tiempo de procesado: "+ TiempoEnEjecucion+" milisegundos");
-        datos.end(1);
-    }// creadorHilosRangos()
-    
-    private static void creadorHilosDe1En1(int numHilos){
-        Datos datos = new Datos(Inicio,Fin);
-        Thread[] hilos = new Thread[numHilos];
-        for (int i = 0; i < hilos.length; ++i) {
-            Hilo_De_Uno_En_Uno h = new Hilo_De_Uno_En_Uno(datos);
-            hilos[i] = new Thread(h);
-            hilos[i].start();
-        }
-        Long InicioTiempo = System.currentTimeMillis();
-        for (int i = 0; i < hilos.length; ++i) {
-            try {
-                hilos[i].join();
-            } catch (InterruptedException e) {}
-        }
-        Long FinTiempo = System.currentTimeMillis();
-        System.out.println("Ha tardado "+ (FinTiempo-InicioTiempo) + " milisegundos");
-        datos.end(2);
-    }// creadorHiloDe1En1
+        datos.end(TiempoEnEjecucion);
+    }// creadorHilos()
     
 }// Principal
