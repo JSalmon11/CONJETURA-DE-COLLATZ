@@ -4,6 +4,9 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+* Clase compartida para comunicar los diferentes hilos entre sí.
+*/
 public class Datos {
 
     private HashMap<BigInteger, BigInteger> calculados = new HashMap<BigInteger, BigInteger>();
@@ -28,25 +31,30 @@ public class Datos {
     }// Datos()
 
     private BigInteger Contador = BigInteger.ZERO;
+    /**
+	 * Cada vez que se llame a este metodo desde cualquier hilo le dara un numero entre la semilla inicial y la final.
+	 * @return El número al que aplicar el cáculo o -1 si se han acabado todos los números.
+	 */
     public synchronized BigInteger PedirNumero() {
         BigInteger ACalcular;
-        //Cada vez que se llame a este metodo desde cualquier hilo le
-        //dara un numero entre la semilla inicial y la final
         ACalcular = inicioRango.add(Contador);
         Contador = Contador.add(BigInteger.ONE);
         if (ACalcular.compareTo(finRango) <= 0) {
             return ACalcular;
         } else {
-            //En el caso que ya se acaben los numeros devuelte al hilo -1 y se muere el hilo
             return new BigInteger("-1");
         }
     }// PedirNumero()
 
     private int contadorHilos = 0;
 
+    /**
+	 * El hilo pide el inicio de su rango.
+	 * @return El inicio del rango de números que calculará el hilo.
+	 */
     public synchronized BigInteger pedirInicio() {
-        //El hilo pide el inicio de su rango, synchronized porque cambio
-        //el valor del inicio del rango para el siguiente hilo
+        //Synchronized porque cambio el valor
+        //del inicio del rango para el siguiente hilo
         if (contadorHilos == 0) {
             inicioRango = inicioRango;
         } else {
@@ -54,11 +62,15 @@ public class Datos {
             //mismo numero, el rpimero como el final de su rango y el siguiente como su inicio
             inicioRango = inicioRango.add(reparto).add(BigInteger.ONE);
         }
-        //Contador de hilos para que cuando ya no se el primer hilo vaya al else
+        //Contador de hilos para que cuando ya no sea el primer hilo vaya al else
         ++contadorHilos;
         return inicioRango;
     }// pedirInicio()
 
+    /**
+	 * El hilo pide el fin de su rango.
+	 * @return El fin del rango de números que calculará el hilo.
+	 */
     public BigInteger pedirFin(BigInteger inicio) {
         //El hilo pide el fin de su rango, no es synchronized porque, a pesar de
         //que se cambian valores, como recibe por parametro un inicio al que le
@@ -88,6 +100,10 @@ public class Datos {
         return calculados.get(calculado) != null;
     }// calculados()
 
+    /**
+	 * Actualiza los números ya calculados por algún hilo.
+	 * @param secuencia Secuencia resultrado de los cáculos, todos los números en ella ya cuentan como números calculados.
+	 */
     public synchronized void actualizarCalculados(String secuencia) {
         //Recibe un string con una secuencia, separa los numeros y los
         //mete en el hashmap en su lugar correspondiente
@@ -105,8 +121,12 @@ public class Datos {
         }
     }// actualizarCalculados()
 
+    /**
+	 * Obtiene el resto de la secuencia de un número que ya ha sido calculado.
+     * @param num Número al que se ha llegado y ya está calculado del hilo.
+	 * @return El resto de la longitud de la secuencia.
+	 */
     public synchronized int getSecuencia(BigInteger num) {
-        //Recibe el numero al que se ha llegado y ya esta calculado del hilo
         int contExtra = 0;
         BigInteger numActual;
         while (repetido.get(num) == null) {
@@ -116,13 +136,16 @@ public class Datos {
             repetido.put(numActual, num);
         }
         repetido.clear();
-        //se devuelve el resto de la longitud de la secuencia
         return contExtra;
     }// getSecuencia()
 
     private int longitudSecuenciaMayor = 0;
     private ArrayList<BigInteger> semillaSecuenciaMayor = new ArrayList<BigInteger>();
-
+    /**
+	 * Comprueba y obtiene la secuencia más larga alcanzada por una semilla.
+     * @param semilla Número que provoca la posible secuencia calculada más larga.
+     * @param tamanioSecuencia Tamaño de la secuencia obtenida por la semilla.
+	 */
     public synchronized void secuenciaMasLarga(BigInteger semilla, int tamanioSecuencia) {
         boolean semillaRepetida = false;
         //Diferencia si la semilla de secuencia mas larga ya le ha llegado antes para aniadirla o no
@@ -144,10 +167,14 @@ public class Datos {
         }
     }// secuenciaMasLarga()
 
+    /**
+	 * Escribe la mayor secuencia encontrada.
+     * @param siguienteNum key para conseguir el value del siguiente número en la secuencia.
+	 */
     public String EscribirSecuenciaMasLarga(BigInteger siguienteNum) {
         repetido.clear();
         String secuenciaMayor = "";
-        //Recorre el hashmap con comenzando por la semilla que da lugar a la mas larga
+        //Recorre el hashmap comenzando por la semilla que da lugar a la mas larga
         for (int i = 0; i < semillaSecuenciaMayor.size(); ++i) {
             BigInteger numActual;
             while (repetido.get(siguienteNum) == null) {
@@ -163,11 +190,19 @@ public class Datos {
     private boolean existeNuevoBucle = false;
     private BigInteger semillaNuevoBucle = BigInteger.ZERO;
 
+    /**
+	 * Escribe el nuevo bucle encontrado, en caso de existir.
+	 * @param nuevoBucle determina si existe un nuevo bucle.
+     * @param semillaNuevoBucle Número que da lugar al nuevo bucle.
+	 */
     public synchronized void setBucle(boolean nuevoBucle, BigInteger semillaNuevoBucle) {
         existeNuevoBucle = nuevoBucle;
         this.semillaNuevoBucle = semillaNuevoBucle;
     }// setBucle()
 
+    /**
+	 * Saca por pantalla toda la información obtenido de los cálculos realizados.
+	 */
     public void end(long TiempoEnEjecucion) {
         System.out.println("Tiempo de procesado: " + TiempoEnEjecucion + " milisegundos");
 
