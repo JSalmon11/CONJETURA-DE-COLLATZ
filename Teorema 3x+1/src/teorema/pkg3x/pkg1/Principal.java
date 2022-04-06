@@ -27,6 +27,12 @@ public class Principal {
         }
     }// main()
     
+    /**
+	 * Crea hilos para ejecutar el programa de manera más rápida.
+	 * @param numHilos El número de hilos que se crearán.
+	 * @param metodo El método de ejecución del programa elegido.
+     * @throws InterruptedException en caso de que se interrumpa la creación de hilos.
+	 */
     private static void creadorHilos(int numHilos, int metodo) {
         Datos datos=new Datos(Inicio, Fin, numHilos);
         Thread[] hilos=new Thread[numHilos];       

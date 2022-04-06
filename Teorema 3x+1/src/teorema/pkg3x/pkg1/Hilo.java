@@ -39,6 +39,13 @@ public class Hilo implements Runnable {
         }
     }// run()
 
+    /** 
+	 * Realiza los cáculos necesarios para obtener el bucle 3x+1 o descubrir el nuevo bucle.
+	 * @param i Iterator.
+     * @param numActual Número calculándose.
+     * @param resultado Resultado del cáculo.
+     * @param posibleNuevoBucle Controla la existencia o no del nuevo bucle.
+	 */
     private void calcular(BigInteger i, BigInteger numActual, BigInteger resultado, boolean posibleNuevoBucle) {
         secuencia = "";
         resultado = i;
@@ -88,11 +95,19 @@ public class Hilo implements Runnable {
         repetido.clear();
     }// calcular()
 
+    /**
+	 * Inicializa el rango de números a calcular por este hilo.
+	 */
     private static void inicializarRangos() {
         inicioRango = datos.pedirInicio();
         finRango = datos.pedirFin(inicioRango);
     }// inicializarRangos()
 
+    /**
+	 * Comprueba la posible existencia de un bucle diferente a 3x+1.
+	 * @param numRepetido El número que se repite trás los cáculos.
+	 * @param semilla La semilla que provoca la repetición del número.
+	 */
     private void comprobarPosibleNuevoBucle(BigInteger numRepetido, BigInteger semilla) {
         //Si el numero que se repite no es el 4 ni el 2 ni el 1 y no es el 0, para
         //controlar errores, significa que se ha encontrado un bucle nuevo
